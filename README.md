@@ -16,16 +16,16 @@ Autonomous exploration, mapping, navigation, and sanitization of unknown environ
 
 ## 🧠 About the Project
 
-This project develops a complete **autonomous robotic system** for indoor **exploration, mapping, navigation**, and **sanitization**.  
-It is based on **TurtleBot3 Burger** simulated in Gazebo and completely developed in **Python** for ROS2 Humble.
+This project implements a full autonomous robotic solution for indoor environments. Starting from an **unknown map**, the robot can **explore**, **map**, **localize**, **navigate through rooms**, and perform complete **UV-based sanitization** without human intervention. 
 
-The robot autonomously explores an **unknown environment**, builds a **map**, localizes itself with **AMCL**, navigates sequentially through **room centers**, and performs **systematic sanitization** using **Boustrophedon decomposition**.
+The system is based on:
+- TurtleBot3 Burger (Gazebo Simulation)
+- ROS2 Humble Middleware
+- Python custom nodes for behavior orchestration
+- Explore Lite and Nav2 for mapping and localization
+- Boustrophedon Decomposition for systematic sanitization
 
-The system features:
-- Fully autonomous pipeline, from unknown map to full sanitization.
-- Real-time user interaction for task setup.
-- Modular and parameterized architecture for multiple environments.
-- Energy-aware UV lamps control during navigation and sanitization.
+It ensures real-time adaptability, energy saving during navigation, and a highly modular architecture suitable for different maps and tasks.
 
 ---
 
@@ -37,11 +37,13 @@ The system features:
 ┃ ┣ 💻 complete_sanitization.py       # Core controller node
 ┃ ┣ 💻 velocity_control_FSM.py        # FSM-based low-level obstacle avoidance
 ┃ ┣ 📁 maps/                          # Stored PGM + YAML maps
-┃ ┗ 📄 README.md                       # You are here!
-┣ 📄 install/
-┣ 📄 build/
-┣ 📄 log/
-┣ 📄 Colcon configuration
+┃ ┗ 📄 README.md                      # You are here!
+┣ 📁 images/                          # Images for documentation
+┣ 📁 install/
+┣ 📁 build/
+┣ 📁 log/
+┣ 📄 AMR_Project_Presentation.pdf
+┣ 📄 sanitizer_project.pdf
 ```
 
 ---
@@ -55,24 +57,45 @@ colcon build --symlink-install
 . install/setup.bash
 ```
 
+### Set TurtleBot3 Model
+```bash
+export TURTLEBOT3_MODEL=burger
+```
+
 ---
+
+## 🗺️ Maps and Modularity
+
+The project includes two different environments:
+
+- `my_map_house.pgm`
+- `my_map_big_house.pgm`
+
+Both are used to test the generality and versatility of the system: by simply selecting the map name and task via the CLI, the behavior dynamically adapts. The system's design allows fast switching between different environments without code modifications — only user selection at runtime is needed.
 
 ## 🎯 Main Tasks
 
 ### 1. Obstacle Avoidance (FSM Control)
-- **Gazebo launch** (Terminal 1):
+
+The robot uses a **finite state machine** to autonomously avoid obstacles. This behavior enables preliminary movement testing without navigation stack dependencies.
+
+- **Launch Gazebo** (Terminal 1):
   ```bash
   export TURTLEBOT3_MODEL=burger
   ros2 launch turtlebot3_gazebo turtlebot3_house.launch.py x_pose:=-2.0 y_pose:=1.0
   ```
-- **Launch FSM** (Terminal 2):
+- **Start Obstacle Avoidance Node** (Terminal 2):
   ```bash
   ros2 run my_robot_controller velocity_control_FSM
   ```
 
+🛡️ The FSM logic includes forward movement, rotation upon obstacle detection, and safe environment exploration.
+
 ---
 
 ### 2. Simultaneous Localization and Mapping (SLAM)
+
+This phase enables the robot to autonomously explore unknown environments and generate a map.
 
 - **Gazebo launch** (Terminal 1)
 - **RVIZ and SLAM launch** (Terminal 2):
@@ -88,9 +111,13 @@ colcon build --symlink-install
   ros2 run nav2_map_server map_saver_cli -f maps/house_map
   ```
 
+🗺️ The Explore Lite package enables real-time frontier-based exploration, mapping the entire environment without manual goal setting.
+
 ---
 
 ### 3. Autonomous Navigation on Known Map
+
+After building a map, the robot can autonomously navigate to specific locations using **AMCL** for localization.
 
 - **Gazebo launch** (Terminal 1)
 - **Load Map and Navigation stack** (Terminal 2):
@@ -107,11 +134,13 @@ colcon build --symlink-install
   House
   ```
 
-The robot will autonomously navigate through the map by moving through the centers of the specified rooms.
+🧭 The robot localizes by monitoring pose covariance in real time and sequentially moves through the center coordinates of rooms.
 
 ---
 
 ### 4. Autonomous Sanitization
+
+This task extends navigation to include room sanitization, employing systematic coverage.
 
 - **Gazebo + RVIZ launch** as above.
 - **Launch complete_sanitization.py**:
@@ -124,7 +153,7 @@ The robot will autonomously navigate through the map by moving through the cente
   House
   ```
 
-The robot will navigate to each room and perform a **Boustrophedon Decomposition** to sanitize it completely with UV lamps.
+🛡️ Using the **Boustrophedon decomposition algorithm**, the robot covers every square meter of the room by moving along parallel tracks while activating the UV lamps.
 
 ---
 
