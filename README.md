@@ -73,7 +73,7 @@ The project includes two different environments:
 
 📸 Maps:
 <p align="center">
-  <img src="./images/my_map_big_house.png" height="270"/>
+  <img src="./images/my_map_big_house.png" height="265"/>
   <img src="./images/my_map_house.png" height="260"/>
 </p>
 
