@@ -71,6 +71,12 @@ The project includes two different environments:
 - `my_map_house.pgm`
 - `my_map_big_house.pgm`
 
+📸 Maps:
+<p align="center">
+  <img src="./images/my_map_big_house.pgm" height="260"/>
+  <img src="./images/my_map_house.pgm" height="260"/>
+</p>
+
 Both are used to test the generality and versatility of the system: by simply selecting the map name and task via the CLI, the behavior dynamically adapts. The system's design allows fast switching between different environments without code modifications — only user selection at runtime is needed.
 
 ## 🎯 Main Tasks
