@@ -89,6 +89,11 @@ The robot uses a **finite state machine** to autonomously avoid obstacles. This 
   ros2 run my_robot_controller velocity_control_FSM
   ```
 
+📸 Localization:
+<p align="center">
+  <img src="./images/localization.png" height="260"/>
+</p>
+
 🛡️ The FSM logic includes forward movement, rotation upon obstacle detection, and safe environment exploration.
 
 ---
@@ -110,6 +115,11 @@ This phase enables the robot to autonomously explore unknown environments and ge
   ```bash
   ros2 run nav2_map_server map_saver_cli -f maps/house_map
   ```
+
+📸 SLAM:
+<p align="center">
+  <img src="./images/SLAM.png" height="260"/>
+</p>
 
 🗺️ The Explore Lite package enables real-time frontier-based exploration, mapping the entire environment without manual goal setting.
 
@@ -133,6 +143,11 @@ After building a map, the robot can autonomously navigate to specific locations 
   Navigation
   House
   ```
+  
+📸 Navigation:
+<p align="center">
+  <img src="./images/navigation.png" height="260"/>
+</p>
 
 🧭 The robot localizes by monitoring pose covariance in real time and sequentially moves through the center coordinates of rooms.
 
@@ -152,6 +167,11 @@ This task extends navigation to include room sanitization, employing systematic 
   Sanitization
   House
   ```
+
+📸 Localization:
+<p align="center">
+  <img src="./images/sanitization.png" height="260"/>
+</p>
 
 🛡️ Using the **Boustrophedon decomposition algorithm**, the robot covers every square meter of the room by moving along parallel tracks while activating the UV lamps.
 
