@@ -227,25 +227,6 @@ This task extends navigation to include room sanitization, employing systematic 
 
 ---
 
-## 🖼️ Project Snapshots
-
-- **Robot Sanitization in BigHouse Map**  
-  ![Sanitization](./images/sanitization_example.png)
-
-- **Dynamic Path Planning Visualization**  
-  ![Exploration](./images/path_planning.png)
-
-- **Occupancy Grid Update**  
-  ![Occupancy Grid](./images/occupancy_grid.png)
-
----
-
-## 📎 Resources
-
-- 📘 Complete project report (coming soon)
-
----
-
 ## 👨‍🎓 Authors
 
 Andrea Perna  
